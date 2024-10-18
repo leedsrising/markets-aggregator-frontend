@@ -15,6 +15,7 @@ function App() {
   const fetchMarkets = async () => {
     try {
       const response = await axios.get('https://markets-aggregator-backend.onrender.com/api/markets');
+      console.log('Backend response:', response.data);
       if (response.data && Array.isArray(response.data.markets)) {
         setMarkets(response.data.markets);
       } else {
@@ -32,20 +33,11 @@ function App() {
       <h1>Prediction Market Comparison</h1>
       {markets && markets.length > 0 ? (
         <div className="market-container">
-          {markets.map((marketPair, index) => (
+          {markets.map((market, index) => (
             <div key={index} className="market-item">
-              <div className="market-side">
-                <h2>Kalshi</h2>
-                <p><strong>{marketPair.kalshi.description}</strong></p>
-                <p>Yes Price: {marketPair.kalshi.yes_contract.price}</p>
-                <p>No Price: {marketPair.kalshi.no_contract.price}</p>
-              </div>
-              <div className="market-side">
-                <h2>Polymarket</h2>
-                <p><strong>{marketPair.polymarket.question}</strong></p>
-                <p>Yes Price: {marketPair.polymarket.prices['0']}</p>
-                <p>No Price: {marketPair.polymarket.prices['1']}</p>
-              </div>
+              <h2>{market.description}</h2>
+              <p>Yes Price: {market.yes_contract.price}</p>
+              <p>No Price: {market.no_contract.price}</p>
             </div>
           ))}
         </div>
